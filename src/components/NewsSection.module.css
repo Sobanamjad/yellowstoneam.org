@@ -1,0 +1,97 @@
+.section {
+  width: 100%;
+  background: var(--color-white);
+  position: relative;
+  overflow: hidden;
+}
+
+/* faint background image overlay */
+.section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('https://static.wixstatic.com/media/62f26520e99441c6804b83aaf5423953.jpg/v1/fill/w_980,h_739,al_c,q_80/62f26520e99441c6804b83aaf5423953.jpg');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.inner {
+  position: relative;
+  max-width: var(--site-width);
+  margin: 0 auto;
+  padding: 60px 20px 80px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+}
+
+/* ── Column ── */
+.column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.heading {
+  font-size: 25px;
+  font-weight: 700;
+  color: var(--color-dark-blue);
+  text-align: center;
+  letter-spacing: normal;
+  line-height: 1.2;
+}
+
+/* ── Card ── */
+.card {
+  width: 100%;
+  background: var(--color-white);
+  border-radius: 5px;
+  box-shadow: 0 1px 30px 1px rgba(0,0,0,0.3);
+  overflow: hidden;
+  border: 1px solid rgba(48,48,48,0.3);
+}
+
+.cardImg {
+  width: 100%;
+  height: 164px;
+  object-fit: cover;
+  display: block;
+}
+
+.cardBody {
+  padding: 20px 21px 24px;
+}
+
+.cardText {
+  font-size: 18px;
+  color: var(--color-near-black);
+  line-height: 1.5;
+  text-align: center;
+}
+
+/* ── Button ── */
+.btn {
+  display: inline-block;
+  padding: 10px 22px;
+  background: var(--color-dark-blue);
+  color: var(--color-white);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  transition: background 0.2s;
+}
+.btn:hover {
+  background: var(--color-primary);
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .inner {
+    grid-template-columns: 1fr;
+    gap: 48px;
+    padding: 48px 24px 64px;
+  }
+}

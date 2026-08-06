@@ -1,0 +1,42 @@
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── Google Font: Jura (used for headings in original) ── */
+@import url('https://fonts.googleapis.com/css2?family=Jura:wght@400;700&display=swap');
+
+/* ── CSS Variables (mirroring Wix site palette) ── */
+:root {
+  --color-primary:    #fd6d15;   /* orange accent */
+  --color-dark-blue:  #043551;   /* dark navy */
+  --color-teal:       #03a3bd;   /* teal */
+  --color-white:      #ffffff;
+  --color-near-black: #303030;
+  --color-light-bg:   #f8f8f8;
+  --color-gray:       #646464;
+  --color-light-gray: #cbcbcb;
+
+  --font-heading:  "Taipei Sans TC Beta", "Microsoft JhengHei", "PingFang TC", sans-serif;
+  --font-sub:      Jura, sans-serif;
+  --font-body:     "Taipei Sans TC Beta", Arial, "Microsoft JhengHei", sans-serif;
+
+  --site-width: 980px;
+  --header-height: 98px;
+}
+
+/* ── Base ── */
+html, body { height: 100%; }
+
+body {
+  font-family: var(--font-body);
+  font-size: 15px;
+  color: var(--color-near-black);
+  background: var(--color-white);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a { text-decoration: none; color: inherit; }
+ul { list-style: none; }
+img { display: block; max-width: 100%; }
+button { cursor: pointer; border: none; background: none; font-family: inherit; }
