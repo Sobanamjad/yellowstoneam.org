@@ -1,8 +1,8 @@
-/* ── Reset ── */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
 /* ── Google Font: Jura (used for headings in original) ── */
 @import url('https://fonts.googleapis.com/css2?family=Jura:wght@400;700&display=swap');
+
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 /* ── CSS Variables (mirroring Wix site palette) ── */
 :root {

@@ -1,0 +1,130 @@
+.footer {
+  background: var(--color-dark-blue);
+  width: 100%;
+}
+
+.inner {
+  max-width: var(--site-width);
+  margin: 0 auto;
+  padding: 40px 20px 50px;
+  display: flex;
+  gap: 60px;
+  align-items: flex-start;
+}
+
+/* ── Brand ── */
+.brand {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  flex-shrink: 0;
+}
+
+.logoLink { display: block; flex-shrink: 0; }
+
+.logo {
+  width: 57px;
+  height: 58px;
+  object-fit: cover;
+  border: 6px solid var(--color-white);
+  border-radius: 2px;
+  box-shadow: 0 0 14px rgba(0,0,0,0.2);
+}
+
+.brandText {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-top: 4px;
+}
+
+.brandZh {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--color-white);
+  letter-spacing: 0.05em;
+  line-height: 1.2;
+}
+.brandZh:hover { text-decoration: underline; }
+
+.brandEn {
+  font-size: 13px;
+  color: var(--color-teal);
+  letter-spacing: 0.02em;
+}
+
+/* ── Contact ── */
+.contact {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.contactRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.icon {
+  margin-top: 2px;
+  flex-shrink: 0;
+  opacity: 0.9;
+}
+
+.contactText {
+  font-size: 14px;
+  color: var(--color-white);
+  line-height: 2;
+  letter-spacing: 0.05em;
+  font-weight: 400;
+}
+
+.contactTextEn {
+  font-size: 13px;
+  color: var(--color-white);
+  letter-spacing: 0;
+  line-height: 1.6;
+}
+
+/* ── Facebook ── */
+.fbLink {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+.fbLink:hover .contactText { text-decoration: underline; }
+
+.fbIcon {
+  width: 27px;
+  height: 27px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+/* ── Copyright ── */
+.copyright {
+  background: rgba(0,0,0,0.2);
+  padding: 14px 20px;
+  text-align: center;
+}
+.copyright p {
+  font-size: 12px;
+  color: rgba(255,255,255,0.7);
+  letter-spacing: 0.02em;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .inner {
+    flex-direction: column;
+    gap: 32px;
+    padding: 32px 20px 40px;
+  }
+
+  .brand { align-items: center; }
+  .brandZh { font-size: 18px; }
+  .contactText { font-size: 13px; }
+}
