@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import styles from './HeroSlideshow.module.css'
 
 const SLIDES = [
@@ -71,138 +71,138 @@ const SLIDES = [
 ]
 
 const INTERVAL_MS = 5000
-const TRANSITION_DURATION = 600
-
-type Slide = {
-  id: string
-  bg: string
-  bgColor: string
-  title: string
-  subtitle: string
-  btnLabel: string
-  btnHref: string
-  btnExternal: boolean
-  label: string
-}
+const TRANSITION_MS = 700
 
 export default function HeroSlideshow() {
+  // current = slide currently fading IN (top layer)
+  // prev    = slide underneath (stays until transition done)
   const [current, setCurrent] = useState(0)
-  const [isTransitioning, setIsTransitioning] = useState(false)
+  const [prev, setPrev] = useState(0)
+  // fadingIn: true  → top layer animates 0→1
+  const [fadingIn, setFadingIn] = useState(false)
+  const busyRef = useRef(false)
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  const prev = useCallback(() => {
-    if (isTransitioning) return
-    setIsTransitioning(true)
-    setCurrent(c => (c - 1 + SLIDES.length) % SLIDES.length)
-  }, [isTransitioning])
+  const goTo = useCallback((next: number) => {
+    if (busyRef.current) return
+    busyRef.current = true
 
-  const next = useCallback(() => {
-    if (isTransitioning) return
-    setIsTransitioning(true)
-    setCurrent(c => (c + 1) % SLIDES.length)
-  }, [isTransitioning])
+    // Step 1: lock in the "from" slide as prev, set next as current (invisible)
+    setPrev(current)
+    setCurrent(next)
+    setFadingIn(false)
 
+    // Step 2: one frame later, trigger fade-in so CSS transition fires
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        setFadingIn(true)
+      })
+    })
+
+    // Step 3: after transition, unlock
+    timerRef.current = setTimeout(() => {
+      busyRef.current = false
+      timerRef.current = null
+    }, TRANSITION_MS + 50)
+  }, [current])
+
+  const nextSlide = useCallback(() => {
+    goTo((current + 1) % SLIDES.length)
+  }, [current, goTo])
+
+  const prevSlide = useCallback(() => {
+    goTo((current - 1 + SLIDES.length) % SLIDES.length)
+  }, [current, goTo])
+
+  // Auto-advance
   useEffect(() => {
-    const t = setInterval(next, INTERVAL_MS)
-    return () => clearInterval(t)
-  }, [next])
+    const id = setInterval(nextSlide, INTERVAL_MS)
+    return () => clearInterval(id)
+  }, [nextSlide])
 
+  // Cleanup on unmount
   useEffect(() => {
-    if (isTransitioning) {
-      const timer = setTimeout(() => {
-        setIsTransitioning(false)
-      }, TRANSITION_DURATION)
-      return () => clearTimeout(timer)
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current)
     }
-  }, [isTransitioning])
+  }, [])
 
-  const slide = SLIDES[current] as Slide
-  const prevSlide = SLIDES[(current - 1 + SLIDES.length) % SLIDES.length] as Slide
+  const slideData = SLIDES[current]
+  const prevData = SLIDES[prev]
 
   return (
     <section className={styles.slideshow} aria-label="投影片放映">
-      {/* Background layers for smooth transition */}
+
+      {/* Bottom layer: previous slide — always fully visible */}
       <div
-        className={`${styles.bg} ${styles.bgLayer}`}
-        style={{
-          backgroundColor: prevSlide.bgColor,
-          opacity: isTransitioning ? 1 : 0,
-          zIndex: 1,
-        }}
+        className={styles.bgLayer}
+        style={{ backgroundColor: prevData.bgColor, opacity: 1, zIndex: 1 }}
       >
-        <img src={prevSlide.bg} alt="" className={styles.bgImg} />
-        <div className={styles.bgOverlay} />
-      </div>
-      <div
-        className={`${styles.bg} ${styles.bgLayer}`}
-        style={{
-          backgroundColor: slide.bgColor,
-          opacity: isTransitioning ? 0 : 1,
-          zIndex: 2,
-        }}
-      >
-        <img src={slide.bg} alt="" className={styles.bgImg} />
+        <img src={prevData.bg} alt="" className={styles.bgImg} />
         <div className={styles.bgOverlay} />
       </div>
 
-      {/* Content with fade transition */}
+      {/* Top layer: new slide — fades in */}
+      <div
+        className={styles.bgLayer}
+        style={{
+          backgroundColor: slideData.bgColor,
+          opacity: fadingIn ? 1 : 0,
+          transition: fadingIn ? `opacity ${TRANSITION_MS}ms ease` : 'none',
+          zIndex: 2,
+        }}
+      >
+        <img src={slideData.bg} alt="" className={styles.bgImg} />
+        <div className={styles.bgOverlay} />
+      </div>
+
+      {/* Text content — fades with image */}
       <div
         className={styles.content}
         style={{
-          opacity: isTransitioning ? 0 : 1,
-          transition: `opacity ${TRANSITION_DURATION}ms ease`,
+          opacity: fadingIn ? 1 : 0,
+          transition: fadingIn ? `opacity ${TRANSITION_MS}ms ease` : 'none',
+          zIndex: 10,
         }}
       >
         <h1 className={styles.title}>
-          {slide.title.split('\n').map((line, i) => (
-            <span key={i}>{line}{i < slide.title.split('\n').length - 1 && <br />}</span>
+          {slideData.title.split('\n').map((line, i, arr) => (
+            <span key={i}>{line}{i < arr.length - 1 && <br />}</span>
           ))}
         </h1>
-        {slide.subtitle && (
+        {slideData.subtitle && (
           <p className={styles.subtitle}>
-            {slide.subtitle.split('\n').map((line, i) => (
+            {slideData.subtitle.split('\n').map((line, i) => (
               <span key={i}>{line}<br /></span>
             ))}
           </p>
         )}
         <a
-          href={slide.btnHref}
+          href={slideData.btnHref}
           className={styles.btn}
-          {...(slide.btnExternal
+          {...(slideData.btnExternal
             ? { target: '_blank', rel: 'noopener noreferrer' }
             : { target: '_self' })}
         >
-          {slide.btnLabel}
+          {slideData.btnLabel}
         </a>
       </div>
 
-      {/* Prev / Next arrows */}
-      <button
-        className={`${styles.arrow} ${styles.arrowPrev}`}
-        onClick={prev}
-        aria-label="返回"
-      >
+      {/* Arrows */}
+      <button className={`${styles.arrow} ${styles.arrowPrev}`} onClick={prevSlide} aria-label="返回">
         <svg viewBox="0 0 21 41" width="21" height="41"><path d="M20.3 40.8 0 20.5 20.3.2l.7.7L1.3 20.5 21 40.1z"/></svg>
       </button>
-      <button
-        className={`${styles.arrow} ${styles.arrowNext}`}
-        onClick={next}
-        aria-label="下一步"
-      >
+      <button className={`${styles.arrow} ${styles.arrowNext}`} onClick={nextSlide} aria-label="下一步">
         <svg viewBox="0 0 21 41" width="21" height="41"><path d="M20.3 40.8 0 20.5 20.3.2l.7.7L1.3 20.5 21 40.1z"/></svg>
       </button>
 
-      {/* Dot navigation */}
+      {/* Dots */}
       <nav className={styles.dots} aria-label="投影片">
         {SLIDES.map((s, i) => (
           <button
             key={s.id}
             className={`${styles.dot} ${i === current ? styles.dotActive : ''}`}
-            onClick={() => {
-              if (!isTransitioning && i !== current) {
-                setIsTransitioning(true)
-                setCurrent(i)
-              }
-            }}
+            onClick={() => { if (i !== current) goTo(i) }}
             aria-label={s.label}
             aria-current={i === current}
           />
