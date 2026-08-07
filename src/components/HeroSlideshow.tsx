@@ -12,39 +12,45 @@ const SLIDES = [
     btnHref: 'https://atbgtp.wixsite.com/atbg/applyonline',
     btnExternal: false,
     label: '评估实绩',
+    center: true,
   },
   {
     id: 'slide2',
     bg: '/11062b_63b3263faa884e3d8f9e785cb8bd6eb5~mv2.jpg',
     bgColor: '#000',
-    title: '最新消息',
-    subtitle: '掌握最新公司治理动态，协助董事会与时俱进',
+    title: '上市櫃庫藏股5月轉電子申報\n金管會提醒籌備',
+    subtitle: '',
     btnLabel: '最新消息',
     btnHref: 'https://atbgtp.wixsite.com/atbg/copy-of-新闻中心-1',
     btnExternal: false,
     label: '最新消息1',
+    center: true,
+    titleColor: '#023651',
   },
   {
     id: 'slide3',
     bg: '/11062b_8a25f8d7e46a43a3b56c455904fdf053~mv2.jpeg',
     bgColor: '#000',
-    title: '学术新知',
-    subtitle: '法规更新及学术研究，强化治理实践',
+    title: '持續推動綠色及轉型金融\n引導資金助力產業淨零轉型',
+    subtitle: '',
     btnLabel: '最新消息',
     btnHref: 'https://atbgtp.wixsite.com/atbg/copy-of-新闻中心',
     btnExternal: false,
     label: '最新消息2',
+    center: true,
   },
   {
     id: 'slide4',
     bg: '/11062b_a7fd41d75482484ca10a04dd7e5b0c63~mv2.jpg',
     bgColor: '#1a3a2a',
-    title: '115 年报编制：\n首波上市柜需备齐气候信息',
+    title: '金管會配合 IFRS 18\n修正證券商財報準則並預告',
     subtitle: '',
     btnLabel: '最新消息',
     btnHref: 'https://www.fsc.gov.tw/ch/home.jsp?id=2&parentpath=0&mcustomize=news_view.jsp&dataserno=202602130012&dtable=News',
     btnExternal: true,
     label: '最新消息3',
+    center: true,
+    titleColor: '#023651',
   },
   {
     id: 'slide5',
@@ -56,17 +62,19 @@ const SLIDES = [
     btnHref: 'https://atbgtp.wixsite.com/atbg/blank-1',
     btnExternal: false,
     label: '最新消息4',
+    center: true,
   },
   {
     id: 'slide6',
     bg: '/e205b0bda7104667b90d0c08a5576c4a.jpg',
     bgColor: '#000',
-    title: '活动集锦',
-    subtitle: '协助企业识别治理盲点、优化董事会运作',
+    title: '第二屆董事會治理效能論壇',
+    subtitle: '',
     btnLabel: '活动专区',
     btnHref: 'https://atbgtp.wixsite.com/atbg/activities',
     btnExternal: false,
     label: '活动集锦',
+    center: true,
   },
 ]
 
@@ -79,7 +87,7 @@ export default function HeroSlideshow() {
   const [current, setCurrent] = useState(0)
   const [prev, setPrev] = useState(0)
   // fadingIn: true  → top layer animates 0→1
-  const [fadingIn, setFadingIn] = useState(false)
+  const [fadingIn, setFadingIn] = useState(true)
   const busyRef = useRef(false)
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
@@ -127,8 +135,8 @@ export default function HeroSlideshow() {
     }
   }, [])
 
-  const slideData = SLIDES[current]
-  const prevData = SLIDES[prev]
+  const slideData = SLIDES[current] as typeof SLIDES[0]
+  const prevData = SLIDES[prev] as typeof SLIDES[0]
 
   return (
     <section className={styles.slideshow} aria-label="投影片放映">
@@ -165,7 +173,7 @@ export default function HeroSlideshow() {
           zIndex: 10,
         }}
       >
-        <h1 className={styles.title}>
+        <h1 className={styles.title} style={slideData.titleColor ? { color: slideData.titleColor } : {}}>
           {slideData.title.split('\n').map((line, i, arr) => (
             <span key={i}>{line}{i < arr.length - 1 && <br />}</span>
           ))}
