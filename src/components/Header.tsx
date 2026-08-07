@@ -2,46 +2,46 @@ import { useState } from 'react'
 import styles from './Header.module.css'
 
 const NAV_ITEMS = [
-  { label: '首頁', href: '/', children: [] },
+  { label: '首頁', href: '#', children: [] },
   {
     label: '協進會簡介',
-    href: 'https://atbgtp.wixsite.com/atbg/blank-8',
+    href: '#',
     children: [
-      { label: '本會章程', href: 'https://atbgtp.wixsite.com/atbg/regulation' },
-      { label: '組織架構', href: 'https://atbgtp.wixsite.com/atbg/組織架構' },
-      { label: '現任理事長', href: 'https://atbgtp.wixsite.com/atbg/chairman' },
-      { label: '歷任理事長', href: 'https://atbgtp.wixsite.com/atbg/歷任理事長' },
-      { label: '秘書長', href: 'https://atbgtp.wixsite.com/atbg/secretarygeneral' },
-      { label: '顧問', href: 'https://atbgtp.wixsite.com/atbg/顧問' },
-      { label: '理監事名單', href: 'https://atbgtp.wixsite.com/atbg/lists' },
-      { label: '何謂董事會治理', href: 'https://atbgtp.wixsite.com/atbg/aboutboardgovernance' },
+      { label: '本會章程', href: '#' },
+      { label: '組織架構', href: '#' },
+      { label: '現任理事長', href: '#' },
+      { label: '歷任理事長', href: '#' },
+      { label: '秘書長', href: '#' },
+      { label: '顧問', href: '#' },
+      { label: '理監事名單', href: '#' },
+      { label: '何謂董事會治理', href: '#' },
     ],
   },
   {
     label: '服務專區',
-    href: 'https://atbgtp.wixsite.com/atbg/blank-1',
+    href: '#',
     children: [
-      { label: '董事會績效評估', href: 'https://atbgtp.wixsite.com/atbg/evaluation' },
-      { label: '到府課程', href: 'https://atbgtp.wixsite.com/atbg/到府課程' },
+      { label: '董事會績效評估', href: '#' },
+      { label: '到府課程', href: '#' },
     ],
   },
   {
     label: '新聞中心',
-    href: 'https://atbgtp.wixsite.com/atbg/copy-of-最新消息',
+    href: '#',
     children: [
-      { label: '最新消息', href: 'https://atbgtp.wixsite.com/atbg/copy-of-新聞中心-1' },
-      { label: '學術新知', href: 'https://atbgtp.wixsite.com/atbg/copy-of-新聞中心' },
-      { label: '電子報', href: 'https://atbgtp.wixsite.com/atbg/電子報' },
-      { label: '活動專區', href: 'https://atbgtp.wixsite.com/atbg/activities' },
+      { label: '最新消息', href: '#' },
+      { label: '學術新知', href: '#' },
+      { label: '電子報', href: '#' },
+      { label: '活動專區', href: '#' },
     ],
   },
   {
     label: '會員中心',
-    href: 'https://atbgtp.wixsite.com/atbg/membercenter',
+    href: '#',
     children: [
-      { label: '會員註冊與登入', href: 'https://atbgtp.wixsite.com/atbg/signup' },
-      { label: '入會說明', href: 'https://atbgtp.wixsite.com/atbg/members' },
-      { label: '與我聯繫', href: 'https://atbgtp.wixsite.com/atbg/contact' },
+      { label: '會員註冊與登入', href: '#' },
+      { label: '入會說明', href: '#' },
+      { label: '與我聯繫', href: '#' },
     ],
   },
 ]
